@@ -1,5 +1,6 @@
 #include <LMP.h>
 #include "SPI.h"
+#include "Radio.h"
 
 const int slaveSelect = 2;
 
@@ -22,10 +23,16 @@ long valuel;
 float valuef;
 byte data[3];
 
+void showit(HardwareSerial &serial, long value) {
+  serial.println(value);
+}
+
+
 void loop() {
 
   valuel = LMP.read_adc_long();
   Serial.println(valuel);
+  showit(Serial1,valuel);
   valuef = LMP.read_adc_float_nonnegative();
   Serial.println(valuef);
   //value = -13;
@@ -37,14 +44,4 @@ void loop() {
   delay(1000);
 }
 
-void show_byte2(byte b) {
-  for (int i=0; i<8; i++) {
-    if ((b >> 7-i) & 1) {
-      break;
-    } else {
-      Serial.print("0");
-    }
-  }
-  Serial.print(b,BIN);
-}
 
